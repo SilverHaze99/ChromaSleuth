@@ -2,6 +2,8 @@
 
 A powerful Python tool for extracting and analyzing dominant colors from images. This tool provides multiple analysis methods, batch processing capabilities, and comprehensive export options.
 
+![Sample](/Sample.png)
+
 ## Features 
 
 - **Multiple Analysis Methods**: Histogram, Pixel Sampling, and K-means clustering
