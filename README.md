@@ -58,26 +58,26 @@ pip install pillow matplotlib numpy opencv-python
 
 ```bash
 # Analyze a single image
-python color_analysis.py image.jpg
+python chromasleuth.py image.jpg
 
 # Get top 5 colors with color names
-python color_analysis.py image.png -n 5 --color-names
+python chromasleuth.py image.png -n 5 --color-names
 
 # Save color palette as image
-python color_analysis.py photo.jpg -o palette.png
+python chromasleuth.py photo.jpg -o palette.png
 ```
 
 ### Advanced Usage
 
 ```bash
 # Use K-means clustering for better color grouping
-python color_analysis.py image.jpg -m kmeans --color-names
+python chromasleuth.py image.jpg -m kmeans --color-names
 
 # Batch process multiple images
-python color_analysis.py *.jpg --batch -j results.json
+python chromasleuth.py *.jpg --batch -j results.json
 
 # Filter extreme colors and export to JSON
-python color_analysis.py logo.png --filter-extremes -j colors.json
+python chromasleuth.py logo.png --filter-extremes -j colors.json
 ```
 
 ## Command Line Options 
@@ -190,7 +190,7 @@ The tool generates beautiful visualizations with:
 # Images are automatically resized to 1920px max dimension
 # To disable: use --no-resize
 
-python color_analysis.py large_image.jpg --no-resize -v
+python chromasleuth.py large_image.jpg --no-resize -v
 ```
 
 ### For Many Colors
@@ -198,13 +198,13 @@ python color_analysis.py large_image.jpg --no-resize -v
 # Color reduction groups similar colors (enabled by default)
 # To disable: use --no-reduce
 
-python color_analysis.py detailed_image.jpg --no-reduce
+python chromasleuth.py detailed_image.jpg --no-reduce
 ```
 
 ### Batch Processing
 ```bash
 # Process all images in a directory
-python color_analysis.py /path/to/images/*.jpg --batch -j results.json
+python chromasleuth.py /path/to/images/*.jpg --batch -j results.json
 
 # The tool uses multithreading (4 workers) for batch processing
 ```
@@ -213,25 +213,25 @@ python color_analysis.py /path/to/images/*.jpg --batch -j results.json
 
 ### Example 1: Logo Color Analysis
 ```bash
-python color_analysis.py logo.png -n 3 --color-names -o logo_palette.png
+python chromasleuth.py logo.png -n 3 --color-names -o logo_palette.png
 ```
 Perfect for extracting brand colors from logos.
 
 ### Example 2: Art Analysis
 ```bash
-python color_analysis.py artwork.jpg -m kmeans -n 8 --filter-extremes
+python chromasleuth.py artwork.jpg -m kmeans -n 8 --filter-extremes
 ```
 Great for analyzing paintings or digital art with better color grouping.
 
 ### Example 3: Website Color Scheme
 ```bash
-python color_analysis.py screenshot.png -n 5 -j website_colors.json
+python chromasleuth.py screenshot.png -n 5 -j website_colors.json
 ```
 Extract color schemes from website screenshots.
 
 ### Example 4: Batch Product Analysis
 ```bash
-python color_analysis.py product_photos/*.jpg --batch --color-names -j product_colors.json
+python chromasleuth.py product_photos/*.jpg --batch --color-names -j product_colors.json
 ```
 Analyze multiple product photos for consistent color reporting.
 
@@ -251,13 +251,13 @@ pip install opencv-python
 **"Memory error with large images"**
 ```bash
 # Use sampling method for very large images
-python color_analysis.py huge_image.jpg -m sampling --sample-factor 20
+python chromasleuth.py huge_image.jpg -m sampling --sample-factor 20
 ```
 
 **"Too many colors found"**
 ```bash
 # Use color reduction (enabled by default) or filtering
-python color_analysis.py image.jpg --filter-extremes
+python chromasleuth.py image.jpg --filter-extremes
 ```
 
 ### Performance Issues
