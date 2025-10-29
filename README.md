@@ -211,11 +211,10 @@ Rank  Hex       RGB               Percentage  Count
 ```
 
 ### Visual Palette
-The tool generates beautiful visualizations with:
-- Horizontal bar chart showing color percentages
-- Color swatches below the chart
-- Smart text color (black/white) based on background brightness
-- Optional color names in the visualization
+The tool generates clean visualizations with:
+- showing color percentages 
+- HEX Code and RGB for the Colors
+- color names in the visualization
 
   ![example](/example.png)
 
