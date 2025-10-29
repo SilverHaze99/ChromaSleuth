@@ -217,7 +217,7 @@ The tool generates beautiful visualizations with:
 - Smart text color (black/white) based on background brightness
 - Optional color names in the visualization
 
-  [example](/example.png)
+  ![example](/example.png)
 
 ## Troubleshooting 
 
