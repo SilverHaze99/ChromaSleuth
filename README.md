@@ -1,18 +1,19 @@
 # ChromaSleuth
 
-A powerful Python tool for extracting and analyzing dominant colors from images. This tool provides multiple analysis methods, batch processing capabilities, and comprehensive export options.
+A powerful and modern tool for color analysis of images, featuring both an intuitive graphical user interface (GUI) and a scriptable command line interface (CLI).
 
 ![Sample](/Sample.png)
 
 ## Features 
 
-- **Multiple Analysis Methods**: Histogram, Pixel Sampling, and K-means clustering
-- **Batch Processing**: Analyze multiple images simultaneously
-- **Visual Output**: Beautiful color palette visualizations
-- **Export Options**: JSON, PNG palette exports
-- **Color Information**: RGB, HEX, HSL values and approximate color names
-- **Performance Optimized**: Automatic image resizing and multithreading
-- **CLI Interface**: Comprehensive command-line interface with extensive options
+- **Modern, intuitive GUI**: An attractive and user-friendly interface created with PySide6.
+- **Drag & drop and click functionality**: Simply drag and drop or click images into the loading zone.
+- **Interactive results**: Click on a color swatch to copy the HEX color code directly to the clipboard.
+- **Powerful backend logic**: Choose between three analysis methods (histogram, sampling, K-means) to balance speed and accuracy.
+- **Powerful CLI**: A fully functional command line for batch processing and automation.
+- **Comprehensive export options**: Export analysis results as a JSON file or save a visual color palette as a PNG image.
+- **Alpha channel detection**: The tool detects images with transparency (alpha channel) and provides the user with appropriate feedback.
+
 
 ### Setup
 
@@ -36,7 +37,7 @@ A powerful Python tool for extracting and analyzing dominant colors from images.
         ```
 4.  **Install Required Python Libraries:** Install the necessary libraries using pip within the activated virtual environment:
 ```bash
-pip install pillow matplotlib numpy opencv-python
+pip install pillow matplotlib numpy opencv-python pyside6
 ```
 
 ### System Requirements
@@ -55,31 +56,39 @@ pip install pillow matplotlib numpy opencv-python
 - GIF (.gif)
 
 ## Quick Start 
+ChromaSleuth offers two interfaces: a graphical user interface (GUI) and a command line interface (CLI).
 
-### Basic Usage
+### GUI Usage
+
+The GUI is ideal for analyzing individual images and providing a visual, interactive experience.
 
 ```bash
 # Analyze a single image
-python chromasleuth.py image.jpg
-
-# Get top 5 colors with color names
-python chromasleuth.py image.png -n 5 --color-names
-
-# Save color palette as image
-python chromasleuth.py photo.jpg -o palette.png
+python gui.py
 ```
+### GUI-Features:
+- Drag an image into the drop zone or click on it to select a file.
+- Adjust the analysis settings in the left panel.
+- Click “Analyze Image” to extract the dominant colors.
+- Click on any color swatch in the results to copy the HEX code.
+- Export the results as JSON or as a visual palette.
 
-### Advanced Usage
+### CLI Usage
+
+The CLI is perfect for automation, processing multiple files (batch mode), and integration into scripts.
 
 ```bash
-# Use K-means clustering for better color grouping
-python chromasleuth.py image.jpg -m kmeans --color-names
+# Display help to see all options
+python cli.py -h
 
-# Batch process multiple images
-python chromasleuth.py *.jpg --batch -j results.json
+# Simple analysis of an image
+python cli.py “path/to/image.jpg”
 
-# Filter extreme colors and export to JSON
-python chromasleuth.py logo.png --filter-extremes -j colors.json
+# Analysis with K-Means, output of the top 5 colors, and saving of the palette
+python cli.py “logo.png” -n 5 -m kmeans --color-names -o “palette.png”
+
+# Process all PNG files in a folder and save a global JSON
+python cli.py “path/to/folder/*.png” --batch -j “all_results.json”
 ```
 
 ## Command Line Options 
@@ -144,35 +153,58 @@ python chromasleuth.py logo.png --filter-extremes -j colors.json
 
 ### Console Output
 ```
+Analyzing: test.png
+
 ======================================================================
-COLOR ANALYSIS: example_image.jpg
+                       COLOR ANALYSIS: test.png
 ======================================================================
-Rank Hex Code  RGB             Percentage Count      Color Name
+
+Image Size:    1920 x 1080 px
+Tranyparency: Yes (Flattened for analysis)
+Method:        Histogram
+Processing:    2.29 seconds
+Total Colors:  17,014
+After Filter:  47
+
+Rank  Hex       RGB               Percentage  Count
 ----------------------------------------------------------------------
-1    #2c5f2d   ( 44, 95, 45)    15.2%     12,456    Green
-2    #87ceeb   (135,206,235)    12.8%     10,234    Cyan
-3    #f4a460   (244,164, 96)     8.9%      7,123    Orange
+1     #000000   (  0,  0,  0)      38.79%      804,420
+2     #002020   (  0, 32, 32)      11.53%      239,126
+3     #004040   (  0, 64, 64)       8.26%      171,194
 ```
 
 ### JSON Export
 ```json
 {
-  "timestamp": "2024-08-09 15:30:45",
+  "timestamp": "2025-10-29 13:12:08",
   "image_info": {
-    "filename": "example.jpg",
-    "original_size": [1920, 1080],
-    "analysis_method": "histogram",
-    "total_unique_colors": 45678
+    "filename": "ChromaSleuth PR.png",
+    "filepath": "G:\\Server\\ChromaSleuth PR.png",
+    "original_size": [
+      1920,
+      1080
+    ],
+    "analysis_method": "kmeans",
+    "processing_time": 5.62,
+    "had_alpha_channel": true
   },
   "colors": [
     {
       "rank": 1,
-      "rgb": [44, 95, 45],
-      "hex": "#2c5f2d",
-      "hsl": [122, 36, 27],
-      "color_name": "Green",
-      "count": 12456,
-      "percentage": 15.2
+      "rgb": [
+        4,
+        4,
+        6
+      ],
+      "hex": "#040406",
+      "hsl": [
+        240,
+        20,
+        1
+      ],
+      "color_name": "Very Dark",
+      "count": 445666,
+      "percentage": 21.492380401234566
     }
   ]
 }
@@ -185,82 +217,9 @@ The tool generates beautiful visualizations with:
 - Smart text color (black/white) based on background brightness
 - Optional color names in the visualization
 
-## Performance Tips 
-
-### For Large Images
-```bash
-# Images are automatically resized to 1920px max dimension
-# To disable: use --no-resize
-
-python chromasleuth.py large_image.jpg --no-resize -v
-```
-
-### For Many Colors
-```bash
-# Color reduction groups similar colors (enabled by default)
-# To disable: use --no-reduce
-
-python chromasleuth.py detailed_image.jpg --no-reduce
-```
-
-### Batch Processing
-```bash
-# Process all images in a directory
-python chromasleuth.py /path/to/images/*.jpg --batch -j results.json
-
-# The tool uses multithreading (4 workers) for batch processing
-```
-
-## Examples 
-
-### Example 1: Logo Color Analysis
-```bash
-python chromasleuth.py logo.png -n 3 --color-names -o logo_palette.png
-```
-Perfect for extracting brand colors from logos.
-
-### Example 2: Art Analysis
-```bash
-python chromasleuth.py artwork.jpg -m kmeans -n 8 --filter-extremes
-```
-Great for analyzing paintings or digital art with better color grouping.
-
-### Example 3: Website Color Scheme
-```bash
-python chromasleuth.py screenshot.png -n 5 -j website_colors.json
-```
-Extract color schemes from website screenshots.
-
-### Example 4: Batch Product Analysis
-```bash
-python chromasleuth.py product_photos/*.jpg --batch --color-names -j product_colors.json
-```
-Analyze multiple product photos for consistent color reporting.
+  [example](/example.png)
 
 ## Troubleshooting 
-
-### Common Issues
-
-**"No module named 'cv2'"**
-```bash
-pip install opencv-python
-```
-
-**"Image file not found"**
-- Check file path and permissions
-- Ensure the image format is supported
-
-**"Memory error with large images"**
-```bash
-# Use sampling method for very large images
-python chromasleuth.py huge_image.jpg -m sampling --sample-factor 20
-```
-
-**"Too many colors found"**
-```bash
-# Use color reduction (enabled by default) or filtering
-python chromasleuth.py image.jpg --filter-extremes
-```
 
 ### Performance Issues
 
@@ -295,26 +254,35 @@ Feel free to contribute improvements:
 3. **Code Contributions**: Follow the existing code style
 
 ### Ideas for Future Features
-- Web interface
+- ~~GUI? Maybe...with Drag&Drop (Tkinter or more fancy)~~ DONE✅
+- ~~Better UI cause right now matplotlib.pyplot is not that good~~ DONE✅
+- Web interface as an alternative to the desktop GUI
+- Integration of webcolors or colour for exact CSS/X11 color names.
+- Analysis of color harmonies (complementary, analogous, etc.).
 - More color spaces (LAB, XYZ)
-- Color harmony analysis
 - Batch comparison tools
 - Integration with design tools
-- Integration of webcolors or colour for exact CSS/X11 color names.
-- GUI? Maybe...with Drag&Drop (Tkinter or more fancy)
-- Docker support maybe, but idk...
-- Benchmark Mode cause why not^^
 - “Color Emotion” analysis
-- Better UI cause right now matplotlib.pyplot is not that good
+- Live-Masking of the color in the image
+
 
 ## License 
 
 This tool is provided as-is for OSINT research and analysis purposes. Users are responsible for ensuring compliance with applicable laws and regulations in their jurisdiction.
 This tool is provided under the MIT-License
+Icons used are provided by "lucide" [lucide-license](https://github.com/lucide-icons/lucide/blob/main/LICENSE)
 
 ## Changelog 
 
-### Version 2.0 (Enhanced)
+### Version 3.0 (GUI Edition)
+- ✅ Added: Full graphical user interface (GUI) built with PySide6 for a modern and responsive experience.
+- ✅ Revised: Drag & drop zone is now clickable, replacing the separate “Browse” button for a cleaner UI.
+- ✅ Added: “Click-to-copy” functionality for all color result cards in the GUI.
+- ✅ Refactored: Centralized and optimized stylesheets to enable visual feedback (e.g., when copying) and improve maintainability.
+- ✅ Added: Alpha channel (transparency) detection with clear feedback for the user in GUI and CLI.
+- ✅ Added: Icons for app windows and all main buttons to improve user guidance.
+
+### Version 2.0 (Enhanced CLI)
 - ✅ Added K-means clustering method
 - ✅ Batch processing with multithreading
 - ✅ JSON export functionality
