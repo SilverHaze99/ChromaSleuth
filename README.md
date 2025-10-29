@@ -269,6 +269,7 @@ Feel free to contribute improvements:
 
 This tool is provided as-is for OSINT research and analysis purposes. Users are responsible for ensuring compliance with applicable laws and regulations in their jurisdiction.
 This tool is provided under the MIT-License
+
 Icons used are provided by "lucide" [lucide-license](https://github.com/lucide-icons/lucide/blob/main/LICENSE)
 
 ## Changelog 
